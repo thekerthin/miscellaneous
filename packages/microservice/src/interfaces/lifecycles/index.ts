@@ -1,0 +1,1 @@
+export * from './on-init.interface';

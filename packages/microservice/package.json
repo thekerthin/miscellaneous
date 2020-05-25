@@ -1,0 +1,56 @@
+{
+  "name": "@kerthin/microservice",
+  "version": "0.0.0",
+  "description": "kerthin microservice",
+  "author": "development@kerthin.com",
+  "homepage": "https://github.com/thekerthin/miscellaneous#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "tslint -p tsconfig.json -c ../../tslint.json",
+    "test": "mocha -r 'tests/index.spec.js' tests/**/*.spec.ts",
+    "coverage": "nyc yarn test",
+    "coverage-report": "nyc --reporter=lcov yarn test"
+  },
+  "keywords": [
+    "kerthin",
+    "microservice"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thekerthin/miscellaneous.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thekerthin/miscellaneous/issues"
+  },
+  "dependencies": {
+    "@nestjs/common": "^7.0.11",
+    "@nestjs/core": "^7.0.11",
+    "@types/sinon": "^9.0.0",
+    "amqplib": "^0.5.5",
+    "bluebird": "^3.7.2",
+    "kafkajs": "^1.11.0",
+    "mqtt": "^4.0.1",
+    "nats": "^1.4.9",
+    "redis": "^3.0.2",
+    "ramda": "^0.27.0",
+    "uuid": "^8.0.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.5.5"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^7.0.11",
+    "@nestjs/core": "^7.0.11",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.5.5"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "^7.0.11",
+    "@types/bluebird": "^3.5.30",
+    "@types/ramda": "^0.27.4"
+  }
+}
