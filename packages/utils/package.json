@@ -1,0 +1,39 @@
+{
+  "name": "@kerthin/utils",
+  "version": "0.0.0",
+  "description": "kerthin utilities",
+  "keywords": [
+    "kerthin",
+    "utils"
+  ],
+  "author": "thekerthin@gmail.com",
+  "homepage": "https://github.com/thekerthin/miscellaneous#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thekerthin/miscellaneous.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint . --ext .ts",
+    "test": "mocha -r 'tests/index.spec.js' tests/**/*.spec.ts",
+    "coverage": "nyc yarn test",
+    "coverage-report": "nyc --reporter=lcov yarn test"
+  },
+  "bugs": {
+    "url": "https://github.com/thekerthin/miscellaneous/issues"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "class-transformer": "^0.2.3",
+    "glob": "^7.1.6",
+    "ramda": "^0.27.0"
+  },
+  "devDependencies": {
+    "@types/ramda": "^0.27.6"
+  }
+}
