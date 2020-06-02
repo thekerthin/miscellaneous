@@ -1,0 +1,42 @@
+{
+  "name": "@kerthin/security",
+  "version": "0.0.0",
+  "description": "kerthin security",
+  "keywords": [
+    "kerthin",
+    "security"
+  ],
+  "author": "thekerthin@gmail.com",
+  "homepage": "https://github.com/thekerthin/miscellaneous#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thekerthin/miscellaneous.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint . --ext .ts",
+    "test": "mocha -r 'tests/index.spec.js' tests/**/*.spec.ts",
+    "coverage": "nyc yarn test",
+    "coverage-report": "nyc --reporter=lcov yarn test"
+  },
+  "bugs": {
+    "url": "https://github.com/thekerthin/miscellaneous/issues"
+  },
+  "dependencies": {
+    "@kerthin/utils": "^0.0.1-0",
+    "@nestjs/common": "^7.0.11",
+    "ramda": "^0.27.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.5.5"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^7.0.11",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.5.5"
+  }
+}
