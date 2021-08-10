@@ -1,6 +1,6 @@
 {
   "name": "@kerthin/microservice",
-  "version": "0.0.2-0",
+  "version": "0.0.1-alpha.0",
   "description": "kerthin microservice",
   "author": "thekerthin@gmail.com",
   "homepage": "https://github.com/thekerthin/miscellaneous#readme",
@@ -36,11 +36,11 @@
     "kafkajs": "^1.11.0",
     "mqtt": "^4.0.1",
     "nats": "^1.4.9",
-    "redis": "^3.0.2",
     "ramda": "^0.27.0",
-    "uuid": "^8.0.0",
+    "redis": "^3.0.2",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.5.5"
+    "rxjs": "^6.5.5",
+    "uuid": "^8.0.0"
   },
   "peerDependencies": {
     "@nestjs/common": "^7.0.11",
