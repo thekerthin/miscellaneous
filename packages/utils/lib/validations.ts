@@ -1,4 +1,11 @@
 import * as R from 'ramda';
 
-export const isEmptyOrNil = R.either(R.isEmpty, R.isNil);
-export const isNotEmptyOrNil = R.compose(R.not, isEmptyOrNil);
+export const isEmptyOrNil: (value: any) => boolean = R.either(
+  R.isEmpty,
+  R.isNil,
+);
+
+export const isNotEmptyOrNil: (value: any) => boolean = R.compose(
+  R.not,
+  isEmptyOrNil,
+);
