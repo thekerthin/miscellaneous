@@ -1,0 +1,39 @@
+{
+  "name": "@kerthin/domain",
+  "version": "0.0.1-alpha.0",
+  "description": "Kerthin Domain (based on DDD)",
+  "keywords": [
+    "Kerthin",
+    "Domain",
+    "DDD"
+  ],
+  "author": "sebastiandelaroche <sebastian.delaroche.dev@gmail.com>",
+  "homepage": "https://github.com/thekerthin/miscellaneous#readme",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thekerthin/miscellaneous.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint . --ext .ts",
+    "test": "mocha -r 'tests/index.spec.js' tests/**/*.spec.ts",
+    "coverage": "nyc yarn test",
+    "coverage-report": "nyc --reporter=lcov yarn test"
+  },
+  "bugs": {
+    "url": "https://github.com/thekerthin/miscellaneous/issues"
+  },
+  "peerDependencies": {
+    "reflect-metadata": "^0.1.13"
+  },
+  "dependencies": {
+    "@kerthin/utils": "^0.0.1-alpha.0",
+    "reflect-metadata": "^0.1.13",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/mocha": "^9.0.0"
+  }
+}
