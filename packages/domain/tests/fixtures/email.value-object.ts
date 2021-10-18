@@ -10,9 +10,6 @@ export class Email extends ValueObject<any> {
     if (isEmptyOrNil(this.value)) {
       this.validator.add(new Exception('Cannot be empty.'));
     }
-    if (isEmptyOrNil(this.value)) {
-      this.validator.add(new Exception('Cannot be empty....'));
-    }
 
     this.validator.throwException();
   }

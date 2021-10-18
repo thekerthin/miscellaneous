@@ -9,8 +9,16 @@ export class ValidatorExecutor {
 
   constructor(private readonly validator: Validator) { }
 
-  add(exception: Exception, key?: string): this {
-    this.exception.set(key || `random_${v4()}`, exception);
+  add(exception: Exception, key?: string, isValueArray?: boolean): this {
+    let exceptionValue: Exception | Array<Exception> = exception;
+
+    if (isValueArray) {
+      const keyExceptions = (this.exception.get(key) || []) as Array<Exception>;
+      exceptionValue = [...keyExceptions, exceptionValue];
+    }
+
+    this.exception.set(key || `random_${v4()}`, exceptionValue);
+
     return this;
   }
 

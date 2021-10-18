@@ -60,11 +60,13 @@ export abstract class DomainEntity<T = any> {
   }
 
   public validate(): void {
-    const runValidation = ({ propName, target }) => {
+    const runValidation = ({ propName, target, isArray = false }) => {
       try {
         target.validate();
+        // TODO: this is important to get the array's positions where failed
+        isArray && this.validator.add(null, propName, isArray);
       } catch (error) {
-        this.validator.add(error, propName);
+        this.validator.add(error, propName, isArray);
       }
     };
 
@@ -72,7 +74,7 @@ export abstract class DomainEntity<T = any> {
       .filter(([propName]) => isValueObjectDefinedInTarget(this.constructor, propName))
       .forEach(([propName, target]) => {
         Array.isArray(target)
-          ? target.forEach((target) => runValidation({ propName, target }))
+          ? target.forEach((target) => runValidation({ propName, target, isArray: true }))
           : runValidation({ propName, target });
       });
 
