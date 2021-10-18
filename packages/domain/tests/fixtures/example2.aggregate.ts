@@ -14,6 +14,9 @@ export class ExampleAggregate2 extends AggregateRoot {
   @ValueObjectProp()
   example: ExampleEntity;
 
+  @ValueObjectProp({ type: ExampleEntity })
+  example2: Array<ExampleEntity>;
+
   static create(data): ExampleAggregate2 {
     const example2 = new ExampleAggregate2(data);
     return example2;

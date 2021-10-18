@@ -31,7 +31,8 @@ describe('AggregateRoot', () => {
       example: {
         name: 'Sub Name',
         email: 'sub-email@email.com'
-      }
+      },
+      example2: []
     };
 
     const aggregate = ExampleAggregate2.create(data);
@@ -85,7 +86,8 @@ describe('AggregateRoot', () => {
       example: {
         name: '',
         email: 'email@email.com'
-      }
+      },
+      example2: []
     };
 
     try {
@@ -98,7 +100,6 @@ describe('AggregateRoot', () => {
       expect(error.exceptions.info[1]).to.be.instanceOf(ValidationArrayException);
       expect(error.exceptions.example).to.be.instanceOf(ValidationDictException);
       expect(error.exceptions.example.exceptions.name).to.be.instanceOf(ValidationArrayException);
-
     }
   });
 
@@ -126,6 +127,26 @@ describe('AggregateRoot', () => {
       expect(error.exceptions.example[0].exceptions.name).to.be.instanceOf(ValidationArrayException);
       expect(error.exceptions.example[1]).to.be.null;
     }
+  });
+
+  it('should get raw data', () => {
+    const data = {
+      name: 'Example',
+      info: ['Example'],
+      example: {
+        name: 'Example',
+        email: 'email@email.com'
+      },
+      example2: [
+        {
+          name: 'Example',
+          email: 'email@email.com'
+        }
+      ]
+    };
+
+    ExampleAggregate2.create(data).toRaw();
+    // expect(raw).deep.equal({ id: example.id.toString(), data });
   });
 
 });

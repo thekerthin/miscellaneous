@@ -3,7 +3,7 @@ import { ValueObject, Exception } from '../../lib';
 
 export class Email extends ValueObject<any> {
   toValue(): string | number | boolean | (string | number | boolean)[] {
-    throw new Error('Method not implemented.');
+    return this.value;
   }
 
   validate(): void {
