@@ -6,6 +6,9 @@ import { Info } from './info.value-object';
 @Aggregate({ name: 'example' })
 export class ExampleAggregate extends AggregateRoot {
   @ValueObjectProp()
+  exampleId: Name;
+
+  @ValueObjectProp()
   name: Name;
 
   @ValueObjectProp()
@@ -16,9 +19,7 @@ export class ExampleAggregate extends AggregateRoot {
 
   static create(data): ExampleAggregate {
     const example = new ExampleAggregate(data);
-
     // example.validate();
-
     return example;
   }
 

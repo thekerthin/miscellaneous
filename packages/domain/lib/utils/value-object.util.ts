@@ -1,14 +1,12 @@
 import { has } from 'ramda';
-import { VALUE_OBJECT_PROP } from '../decorators';
+import { Metadata } from './metadata';
+import { TargetMetadata } from './types';
 import { ValueObject } from '../domain';
-
-export const getValueObjectsFromTarget = (target: any): any =>
-  Reflect.getMetadata(VALUE_OBJECT_PROP, target);
 
 export const isValueObject = (target: any) =>
   target.__proto__.name === ValueObject.name;
 
 export const isValueObjectDefinedInTarget = (target: any, propName: string) => {
-  const valueObjects = getValueObjectsFromTarget(target);
-  return has(propName, valueObjects);
+  const { properties } = Metadata.getTargetMetadata(target) as TargetMetadata;
+  return has(propName, properties);
 };

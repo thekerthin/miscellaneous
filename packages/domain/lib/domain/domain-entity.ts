@@ -1,5 +1,5 @@
 import { UniqueEntityID } from './unique-entity-id';
-import { getValueObjectsFromTarget, isValueObject, isValueObjectDefinedInTarget } from '../utils';
+import { isValueObject, isValueObjectDefinedInTarget, Metadata, TargetMetadata, TargetPropertyMeta } from '../utils';
 import { EntityValidator, ValidatorExecutor } from './validate';
 
 const isEntity = (v: any): v is DomainEntity => {
@@ -13,12 +13,13 @@ export abstract class DomainEntity {
 
   private static initialize(instance: any, data: any = {}): void {
     const target = instance.constructor;
-    const valueObjects = getValueObjectsFromTarget(target);
+    const { properties } = Metadata.getTargetMetadata(target) as TargetMetadata;
     const getTargetInstance = ({ target }: any) => (value: any) =>
       new target(value);
 
-    Object.entries(valueObjects).forEach(([propName, value]: any) => {
-      const { options } = value;
+    Object.entries(properties).forEach(([propName, { valueObject }]: [string, TargetPropertyMeta]) => {
+      const { options } = valueObject.meta;
+
       const dataValue = data[propName];
 
       if (options.isArray && !Array.isArray(dataValue)) {
@@ -26,8 +27,8 @@ export abstract class DomainEntity {
       }
 
       instance[propName] = options.isArray ?
-        dataValue.map(getTargetInstance(value)):
-        getTargetInstance(value)(dataValue);
+        dataValue.map(getTargetInstance(valueObject.meta)):
+        getTargetInstance(valueObject.meta)(dataValue);
     });
   }
 
@@ -55,8 +56,8 @@ export abstract class DomainEntity {
   public toRaw<T = any>(): T {
     const defaults = { id: this.id.toString() };
     const target = this.constructor;
-    const valueObjects = getValueObjectsFromTarget(target);
-    return this.serialize(valueObjects, this, defaults);
+    const { properties } = Metadata.getTargetMetadata(target) as TargetMetadata;
+    return this.serialize(properties, this, defaults);
   }
 
   public validate(): void {
@@ -91,14 +92,14 @@ export abstract class DomainEntity {
   }
 
   private serialize(props: any, context: any, defaults: any = {}) {
-    return Object.entries(props).reduce((raw: any, [propName, metadata]: any) => {
-      const { target, options } = metadata;
+    return Object.entries(props).reduce((raw: any, [propName, { valueObject }]: [string, TargetPropertyMeta]) => {
+      const { target, options } = valueObject.meta;
 
       if (options.isArray && Array.isArray(context[propName])) {
         raw[propName] = context[propName].map((element) => {
           if (isValueObject(target)) return element.toValue();
-          const valueObjects = getValueObjectsFromTarget(metadata.target);
-          return this.serialize(valueObjects, element);
+          const { properties } = Metadata.getTargetMetadata(target) as TargetMetadata;
+          return this.serialize(properties, element);
         });
       }
 
@@ -107,8 +108,8 @@ export abstract class DomainEntity {
       }
 
       if (options.isEntity) {
-        const valueObjects = getValueObjectsFromTarget(metadata.target);
-        raw[propName] = this.serialize(valueObjects, context[propName]);
+        const { properties } = Metadata.getTargetMetadata(target) as TargetMetadata;
+        raw[propName] = this.serialize(properties, context[propName]);
       }
 
       return raw;

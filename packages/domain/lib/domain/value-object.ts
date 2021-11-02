@@ -1,14 +1,9 @@
 import { ValidatorExecutor, ValueObjectValidator } from './validate';
 
-export interface ValueObjectProps {
-  [index: string]: any;
-}
-
-export abstract class ValueObject<T extends ValueObjectProps> {
-
+export abstract class ValueObject {
   protected validator = new ValidatorExecutor(new ValueObjectValidator());
 
-  constructor(protected readonly value: T) {}
+  constructor(protected readonly value: any) {}
 
   abstract toValue():
     | string
@@ -18,7 +13,7 @@ export abstract class ValueObject<T extends ValueObjectProps> {
 
   abstract validate(): void;
 
-  public equals(vo?: ValueObject<T>): boolean {
+  public equals(vo?: this): boolean {
     if (vo === null || vo === undefined) {
       return false;
     }

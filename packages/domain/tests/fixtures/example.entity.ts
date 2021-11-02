@@ -6,9 +6,9 @@ import { Email } from './email.value-object';
 export class ExampleEntity extends DomainEntity {
 
   @ValueObjectProp()
-  name: Name
+  name: Name;
 
   @ValueObjectProp()
-  email: Email
+  email: Email;
 
 }

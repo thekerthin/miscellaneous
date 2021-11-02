@@ -1,7 +1,7 @@
 import { isEmptyOrNil } from '@kerthin/utils';
 import { ValueObject, Exception } from '../../lib';
 
-export class Email extends ValueObject<any> {
+export class Email extends ValueObject {
   toValue(): string | number | boolean | (string | number | boolean)[] {
     return this.value;
   }

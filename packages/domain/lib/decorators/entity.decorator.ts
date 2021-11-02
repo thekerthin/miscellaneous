@@ -1,4 +1,5 @@
-export const ENTITY_TARGET = 'ENTITY_TARGET__';
+import { merge } from 'ramda';
+import { Metadata } from '../utils';
 
 export type EntityOptions = {
   name: string;
@@ -6,6 +7,7 @@ export type EntityOptions = {
 
 export function Entity(options: EntityOptions) {
   return (target: any) => {
-    Reflect.defineMetadata(ENTITY_TARGET, options, target);
+    const meta = Metadata.getTargetMetadata(target);
+    Metadata.addTargetMetadata(target, merge(options, meta));
   };
 }

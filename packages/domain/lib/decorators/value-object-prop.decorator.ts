@@ -1,44 +1,55 @@
-import { isEmptyOrNil } from '@kerthin/utils';
+import { Class, isEmptyOrNil } from '@kerthin/utils';
 import { toLower } from 'ramda';
-import { isValueObject, isEntity } from '../utils';
+import { isValueObject, isEntity, Metadata } from '../utils';
 
-export const VALUE_OBJECT_PROP = '__VALUE_OBJECT_PROP__';
-
-export type ValueObjectPropOptions = {
-  type?: any;
+export type ValueObjectOptions = {
+  type?: Class;
 };
 
-export function ValueObjectProp(options: ValueObjectPropOptions = {}) {
+export function ValueObjectProp(options: ValueObjectOptions = {}) {
   return  (target: any, propName: string) => {
-    const valueObjects = Reflect.getMetadata(
-      VALUE_OBJECT_PROP, target.constructor
-    ) || {};
-    const valueObjectTarget = Reflect.getMetadata(
-      'design:type', target, propName
-    );
+    // const options = defaultTo(_options);
+    const meta = Metadata.getTargetMetadata(target.constructor);
 
-    validate({ propName, valueObjectTarget, options });
+    const valueObjectType = Metadata.getTargetPropType(target, propName);
 
-    valueObjects[propName] = {
-      target: options.type || valueObjectTarget,
-      options: {
-        ...options,
-        isArray: toLower(valueObjectTarget.name) === 'array',
-        isValueObject: isValueObject(valueObjectTarget),
-        isEntity: isEntity(valueObjectTarget),
+    // throw an exception in case something goes wrong
+    validate({ propName, valueObjectType, options });
+
+    if (isEmptyOrNil(meta.properties)) {
+      meta.properties = {};
+    }
+
+    meta.properties[propName] = {
+      valueObject: {
+        meta: getValueObjectMeta(valueObjectType, options)
       }
     };
 
-    Reflect.defineMetadata(
-      VALUE_OBJECT_PROP, valueObjects, target.constructor
-    );
+    Metadata.addTargetMetadata(target.constructor, meta);
   };
 }
 
-function validate({ propName, valueObjectTarget, options }): void {
-  const targetName = valueObjectTarget.name;
+
+function validate({ propName, valueObjectType, options }): void {
+  const targetName = valueObjectType.name;
 
   if (toLower(targetName) === 'array' && isEmptyOrNil(options.type)) {
     throw new Error(`The value object '${propName}' is an array so that 'type' option is required.`);
   }
+}
+
+function getValueObjectMeta(
+  valueObjectTarget: any,
+  options: ValueObjectOptions = {}
+) {
+  return {
+    target: options.type || valueObjectTarget,
+    options: {
+      ...options,
+      isArray: toLower(valueObjectTarget.name) === 'array',
+      isValueObject: isValueObject(valueObjectTarget),
+      isEntity: isEntity(valueObjectTarget),
+    }
+  };
 }

@@ -1,11 +1,12 @@
-export const AGGREGATE_TARGET = '__AGGREGATE_TARGET__';
+import { merge } from 'ramda';
+import { Metadata } from '../utils';
+import { EntityOptions } from './entity.decorator';
 
-export type AggregateOptions = {
-  name: string;
-};
+export type AggregateOptions = EntityOptions;
 
 export function Aggregate(options: AggregateOptions) {
   return (target: any) => {
-    Reflect.defineMetadata(AGGREGATE_TARGET, options, target);
+    const meta = Metadata.getTargetMetadata(target);
+    Metadata.addTargetMetadata(target, merge(options, meta));
   };
 }
