@@ -11,6 +11,9 @@
   "homepage": "https://github.com/thekerthin/miscellaneous#readme",
   "license": "ISC",
   "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/thekerthin/miscellaneous.git"
@@ -35,5 +38,6 @@
   },
   "devDependencies": {
     "@types/mocha": "^9.0.0"
-  }
+  },
+  "gitHead": "410975a63aeb92b3e5333a935ad0a0352c73cc22"
 }
