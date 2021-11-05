@@ -19,7 +19,7 @@
     "url": "git+https://github.com/thekerthin/miscellaneous.git"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rimraf dist && tsc",
     "lint": "eslint . --ext .ts",
     "test": "mocha -r 'tests/index.spec.js' tests/**/*.spec.ts",
     "coverage": "nyc yarn test",
