@@ -1,7 +1,8 @@
 import { isEmptyOrNil } from '@kerthin/utils';
-import { ValueObject, Exception } from '../../lib';
+import { DomainValueObject, Exception, ValueObject } from '../../lib';
 
-export class Email extends ValueObject {
+@ValueObject()
+export class Email extends DomainValueObject {
   toValue(): string | number | boolean | (string | number | boolean)[] {
     return this.value;
   }

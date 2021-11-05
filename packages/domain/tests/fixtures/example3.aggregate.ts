@@ -7,7 +7,7 @@ export class ExampleAggregate3 extends AggregateRoot {
   @ValueObjectProp()
   name: Name;
 
-  @ValueObjectProp({ type: ExampleEntity })
+  @ValueObjectProp(() => ExampleEntity)
   example: Array<ExampleEntity>;
 
   static create(data): ExampleAggregate3 {

@@ -1,5 +1,5 @@
 import { UniqueEntityID } from './unique-entity-id';
-import { isValueObject, isValueObjectDefinedInTarget, Metadata, TargetMetadata, TargetPropertyMeta } from '../utils';
+import { Actions, isValueObject, isValueObjectDefinedInTarget, Metadata, TargetMetadata, TargetPropertyMeta } from '../utils';
 import { EntityValidator, ValidatorExecutor } from './validate';
 
 const isEntity = (v: any): v is DomainEntity => {
@@ -8,6 +8,8 @@ const isEntity = (v: any): v is DomainEntity => {
 
 export abstract class DomainEntity {
   public readonly id: UniqueEntityID;
+
+  protected readonly action: Actions;
 
   protected validator = new ValidatorExecutor(new EntityValidator());
 
@@ -83,7 +85,7 @@ export abstract class DomainEntity {
 
   private runValidation({ propName, target, isArray = false }) {
     try {
-      target.validate();
+      target.validate(true, this.action);
       // TODO: this is important to get the array's positions where failed
       isArray && this.validator.add(null, propName, isArray);
     } catch (error) {

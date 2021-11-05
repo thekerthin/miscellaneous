@@ -2,19 +2,14 @@ import { Class, isEmptyOrNil } from '@kerthin/utils';
 import { toLower } from 'ramda';
 import { isValueObject, isEntity, Metadata } from '../utils';
 
-export type ValueObjectOptions = {
-  type?: Class;
-};
-
-export function ValueObjectProp(options: ValueObjectOptions = {}) {
+export function ValueObjectProp(targetType?: () => Class) {
   return  (target: any, propName: string) => {
-    // const options = defaultTo(_options);
     const meta = Metadata.getTargetMetadata(target.constructor);
 
     const valueObjectType = Metadata.getTargetPropType(target, propName);
 
     // throw an exception in case something goes wrong
-    validate({ propName, valueObjectType, options });
+    validate({ propName, valueObjectType, targetType });
 
     if (isEmptyOrNil(meta.properties)) {
       meta.properties = {};
@@ -22,7 +17,7 @@ export function ValueObjectProp(options: ValueObjectOptions = {}) {
 
     meta.properties[propName] = {
       valueObject: {
-        meta: getValueObjectMeta(valueObjectType, options)
+        meta: getValueObjectMeta(valueObjectType, targetType)
       }
     };
 
@@ -31,22 +26,21 @@ export function ValueObjectProp(options: ValueObjectOptions = {}) {
 }
 
 
-function validate({ propName, valueObjectType, options }): void {
+function validate({ propName, valueObjectType, targetType }): void {
   const targetName = valueObjectType.name;
 
-  if (toLower(targetName) === 'array' && isEmptyOrNil(options.type)) {
+  if (toLower(targetName) === 'array' && isEmptyOrNil(targetType?.())) {
     throw new Error(`The value object '${propName}' is an array so that 'type' option is required.`);
   }
 }
 
 function getValueObjectMeta(
   valueObjectTarget: any,
-  options: ValueObjectOptions = {}
+  targetType: () => Class
 ) {
   return {
-    target: options.type || valueObjectTarget,
+    target: targetType?.() || valueObjectTarget,
     options: {
-      ...options,
       isArray: toLower(valueObjectTarget.name) === 'array',
       isValueObject: isValueObject(valueObjectTarget),
       isEntity: isEntity(valueObjectTarget),

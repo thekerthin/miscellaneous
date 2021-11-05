@@ -14,7 +14,7 @@ export class ExampleAggregate extends AggregateRoot {
   @ValueObjectProp()
   email: Email;
 
-  @ValueObjectProp({ type: Info })
+  @ValueObjectProp(() => Info)
   info: Array<Info>;
 
   static create(data): ExampleAggregate {

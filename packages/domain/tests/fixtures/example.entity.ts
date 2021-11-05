@@ -2,7 +2,7 @@ import { DomainEntity, ValueObjectProp, Entity } from '../../lib';
 import { Name } from './name.value-object';
 import { Email } from './email.value-object';
 
-@Entity({ name: 'example-entity' })
+@Entity()
 export class ExampleEntity extends DomainEntity {
 
   @ValueObjectProp()
