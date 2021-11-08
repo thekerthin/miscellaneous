@@ -1,21 +1,21 @@
 import { Class, isEmptyOrNil } from '@kerthin/utils';
-import { AbstractRepository } from '../repository';
+import { AbstractRepository, RepoDBConfig } from '../repository';
 import { StaticRepository } from '../repository/static-repository';
 
 export type InitializerOptions = {
-  RepoAdapter?: Class<AbstractRepository>
+  RepoAdapter?: Class<AbstractRepository>;
+  RepoDBConfig?: RepoDBConfig
+};
+
+export async function initializer(options?: InitializerOptions) {
+  await initRepo(options);
 }
 
-export async function initializer(options: InitializerOptions) {
-  const { RepoAdapter } = options;
-  await initRepo(RepoAdapter);
-}
+async function initRepo(options: InitializerOptions = {}) {
+  if (isEmptyOrNil(options?.RepoAdapter)) return;
 
-async function initRepo(RepoAdapter: Class<AbstractRepository>) {
-  if (isEmptyOrNil(RepoAdapter)) return;
-
-  const repo = new RepoAdapter();
-  await repo.connect();
+  const repo = new options.RepoAdapter();
+  await repo.connect(options.RepoDBConfig);
 
   StaticRepository.setRepo(repo);
 }

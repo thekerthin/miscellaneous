@@ -1,20 +1,32 @@
-import { FindAndCountOptions, FindOneOptions, FindOptions } from './types';
+import {
+  CountOptions,
+  FilterQuery,
+  FindOneOptions,
+  FindOptions,
+  RepoDBConfig
+} from './types';
 
 export abstract class AbstractRepository<TEntity = any> {
   protected abstract connection: any;
 
-  abstract connect(): Promise<void>;
+  abstract connect(config: RepoDBConfig): Promise<void>;
 
-  abstract count(): Promise<number>;
+  abstract count(
+    where: FilterQuery<TEntity>, options?: CountOptions<TEntity>
+  ): Promise<number>
 
-  abstract find(options?: FindOptions<TEntity>): Promise<Array<TEntity>>;
+  abstract find(
+    where: FilterQuery<TEntity>, options?: FindOptions<TEntity>
+  ): Promise<Array<TEntity>>;
 
-  abstract findOne(options?: FindOneOptions<TEntity>): Promise<TEntity>;
+  abstract findOne(
+    where: FilterQuery<TEntity>, options?: FindOneOptions<TEntity>
+  ): Promise<TEntity>;
 
   abstract findOneById(id: string | number): Promise<TEntity>;
 
   abstract findAndCount(
-    options?: FindAndCountOptions<TEntity>,
+    where: FilterQuery<TEntity>, options?: FindOptions<TEntity>
   ): Promise<[Array<TEntity>, number]>;
 
   abstract insert(data: Partial<TEntity>): Promise<TEntity | null>;

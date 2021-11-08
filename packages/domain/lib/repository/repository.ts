@@ -1,20 +1,22 @@
 import { StaticRepository } from './static-repository';
-import { FindAndCountOptions, FindOneOptions, FindOptions } from './types';
+import { CountOptions, FilterQuery, FindOneOptions, FindOptions } from './types';
 
 export abstract class Repository<TEntity> {
-  count(): Promise<number> {
+  count(where: FilterQuery<TEntity>, options?: CountOptions<TEntity>): Promise<number> {
     const repo = StaticRepository.getRepo();
-    return repo.count();
+    return repo.count(where, options);
   }
 
-  find(options?: FindOptions<TEntity>): Promise<TEntity[]> {
+  find(where: FilterQuery<TEntity>, options?: FindOptions<TEntity>): Promise<TEntity[]> {
     const repo = StaticRepository.getRepo();
-    return repo.find(options);
+    return repo.find(where, options);
   }
 
-  findOne(options?: FindOneOptions<TEntity>): Promise<TEntity> {
+  findOne(
+    where: FilterQuery<TEntity>, options?: FindOneOptions<TEntity>
+  ): Promise<TEntity> {
     const repo = StaticRepository.getRepo();
-    return repo.findOne(options);
+    return repo.findOne(where, options);
   }
 
   findOneById(id: string | number): Promise<TEntity> {
@@ -23,10 +25,10 @@ export abstract class Repository<TEntity> {
   }
 
   findAndCount(
-    options?: FindAndCountOptions<TEntity>,
+    where: FilterQuery<TEntity>, options?: FindOptions<TEntity>
   ): Promise<[TEntity[], number]> {
     const repo = StaticRepository.getRepo();
-    return repo.findAndCount(options);
+    return repo.findAndCount(where, options);
   }
 
   insert(data: Partial<TEntity>): Promise<TEntity> {
