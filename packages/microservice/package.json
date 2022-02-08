@@ -1,6 +1,6 @@
 {
   "name": "@kerthin/microservice",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.1-alpha.2",
   "description": "kerthin microservice",
   "author": "thekerthin@gmail.com",
   "homepage": "https://github.com/thekerthin/miscellaneous#readme",
@@ -52,5 +52,6 @@
     "@nestjs/testing": "^7.0.11",
     "@types/bluebird": "^3.5.30",
     "@types/ramda": "^0.27.4"
-  }
+  },
+  "gitHead": "410975a63aeb92b3e5333a935ad0a0352c73cc22"
 }
