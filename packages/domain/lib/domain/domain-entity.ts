@@ -105,8 +105,9 @@ export abstract class DomainEntity {
       if (options.isArray && Array.isArray(context[propName])) {
         raw[propName] = context[propName].map((element) => {
           if (isValueObject(target)) return element.toValue();
+          const _defaults = { ownId: element.ownId.toValue() };
           const { properties } = Metadata.getTargetMetadata(target) as TargetMetadata;
-          return this.serialize(properties, element);
+          return this.serialize(properties, element, _defaults);
         });
       }
 
@@ -115,8 +116,9 @@ export abstract class DomainEntity {
       }
 
       if (options.isEntity) {
+        const _defaults = { ownId: context.ownId.toValue() };
         const { properties } = Metadata.getTargetMetadata(target) as TargetMetadata;
-        raw[propName] = this.serialize(properties, context[propName]);
+        raw[propName] = this.serialize(properties, context[propName], _defaults);
       }
 
       return raw;
