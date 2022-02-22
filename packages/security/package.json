@@ -1,6 +1,6 @@
 {
   "name": "@kerthin/security",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.1-alpha.7",
   "description": "kerthin security",
   "keywords": [
     "kerthin",
@@ -28,7 +28,7 @@
     "url": "https://github.com/thekerthin/miscellaneous/issues"
   },
   "dependencies": {
-    "@kerthin/utils": "^0.0.1-0",
+    "@kerthin/utils": "^0.0.1-alpha.7",
     "@nestjs/common": "^7.0.11",
     "ramda": "^0.27.0",
     "reflect-metadata": "^0.1.13",

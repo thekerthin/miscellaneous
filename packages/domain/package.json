@@ -1,6 +1,6 @@
 {
   "name": "@kerthin/domain",
-  "version": "0.0.1-alpha.6",
+  "version": "0.0.1-alpha.7",
   "description": "Kerthin Domain (based on DDD)",
   "keywords": [
     "Kerthin",
@@ -32,7 +32,7 @@
     "reflect-metadata": "^0.1.13"
   },
   "dependencies": {
-    "@kerthin/utils": "^0.0.1-alpha.0",
+    "@kerthin/utils": "^0.0.1-alpha.7",
     "ramda": "^0.27.1",
     "reflect-metadata": "^0.1.13",
     "uuid": "^8.3.2"
