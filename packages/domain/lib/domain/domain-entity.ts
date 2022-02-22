@@ -8,7 +8,7 @@ const isEntity = (v: any): v is DomainEntity => {
 };
 
 export abstract class DomainEntity {
-  public readonly id: UniqueEntityID;
+  public readonly ownId: UniqueEntityID;
 
   protected readonly action: Actions;
 
@@ -37,8 +37,8 @@ export abstract class DomainEntity {
     });
   }
 
-  constructor(data: any, id?: UniqueEntityID) {
-    this.id = id || new UniqueEntityID();
+  constructor(data: any, ownId?: UniqueEntityID) {
+    this.ownId = ownId || new UniqueEntityID();
     DomainEntity.initialize(this, data);
   }
 
@@ -55,11 +55,11 @@ export abstract class DomainEntity {
       return false;
     }
 
-    return this.id.equals(object.id);
+    return this.ownId.equals(object.ownId);
   }
 
   public toRaw<T = any>(): T {
-    const defaults = { id: this.id.toString() };
+    const defaults = { ownId: this.ownId.toValue() };
     const target = this.constructor;
     const { properties } = Metadata.getTargetMetadata(target) as TargetMetadata;
     return this.serialize(properties, this, defaults);
