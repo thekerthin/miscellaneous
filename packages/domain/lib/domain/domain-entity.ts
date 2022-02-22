@@ -1,3 +1,4 @@
+import { isEmptyOrNil } from '@kerthin/utils';
 import { UniqueEntityID } from './unique-entity-id';
 import { Actions, isValueObject, isValueObjectDefinedInTarget, Metadata, TargetMetadata, TargetPropertyMeta } from '../utils';
 import { EntityValidator, ValidatorExecutor } from './validate';
@@ -22,11 +23,15 @@ export abstract class DomainEntity {
     Object.entries(properties).forEach(([propName, { valueObject }]: [string, TargetPropertyMeta]) => {
       const { options } = valueObject.meta;
 
-      const dataValue = data[propName];
+      let dataValue = data[propName];
 
-      if (options.isArray && !Array.isArray(dataValue)) {
-        throw new Error(`The ${options.isEntity ? 'entity' : 'value object'} '${propName}' must be an Array.`);
+      if (options.isArray && isEmptyOrNil(dataValue)) {
+        dataValue = [];
       }
+
+      // if (options.isArray && !Array.isArray(dataValue)) {
+      //   throw new Error(`The ${options.isEntity ? 'entity' : 'value object'} '${propName}' must be an Array.`);
+      // }
 
       instance[propName] = options.isArray ?
         dataValue.map(getTargetInstance(valueObject.meta)):
