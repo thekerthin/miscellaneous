@@ -23,11 +23,9 @@ export abstract class DomainEntity {
     Object.entries(properties).forEach(([propName, { valueObject }]: [string, TargetPropertyMeta]) => {
       const { options } = valueObject.meta;
 
-      let dataValue = data[propName];
+      const dataValue = data[propName];
 
-      if (options.isArray && isEmptyOrNil(dataValue)) {
-        dataValue = [];
-      }
+      if (isEmptyOrNil(dataValue)) return;
 
       // if (options.isArray && !Array.isArray(dataValue)) {
       //   throw new Error(`The ${options.isEntity ? 'entity' : 'value object'} '${propName}' must be an Array.`);
