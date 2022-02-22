@@ -100,6 +100,8 @@ export abstract class DomainEntity {
     return Object.entries(props).reduce((raw: any, [propName, { valueObject }]: [string, TargetPropertyMeta]) => {
       const { target, options } = valueObject.meta;
 
+      if (isEmptyOrNil(context[propName])) return raw;
+
       if (options.isArray && Array.isArray(context[propName])) {
         raw[propName] = context[propName].map((element) => {
           if (isValueObject(target)) return element.toValue();
