@@ -23,9 +23,11 @@ export abstract class DomainEntity {
     Object.entries(properties).forEach(([propName, { valueObject }]: [string, TargetPropertyMeta]) => {
       const { options } = valueObject.meta;
 
-      const dataValue = data[propName];
+      let dataValue = data[propName];
 
-      if (isEmptyOrNil(dataValue)) return;
+      if (isEmptyOrNil(dataValue) && options.isArray) {
+        dataValue = [];
+      }
 
       // if (options.isArray && !Array.isArray(dataValue)) {
       //   throw new Error(`The ${options.isEntity ? 'entity' : 'value object'} '${propName}' must be an Array.`);
@@ -90,7 +92,7 @@ export abstract class DomainEntity {
     try {
       target.validate(true, this.action);
       // TODO: this is important to get the array's positions where failed
-      isArray && this.validator.add(null, propName, isArray);
+      // isArray && this.validator.add(null, propName, isArray);
     } catch (error) {
       this.validator.add(error, propName, isArray);
     }

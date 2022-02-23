@@ -18,8 +18,7 @@ export class ExampleAggregate2 extends AggregateRoot {
   example2: Array<ExampleEntity>;
 
   static create(data): ExampleAggregate2 {
-    const example2 = new ExampleAggregate2(data);
-    return example2;
+    return new ExampleAggregate2(data);
   }
 
 }
