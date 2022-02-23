@@ -6,3 +6,4 @@ export * from './exceptions';
 export * from './validators';
 export * from './repository';
 export * from './initializer';
+export * from './event';
