@@ -91,6 +91,7 @@ export abstract class DomainEntity {
   private runValidation({ propName, target, isArray = false }) {
     try {
       target.validate(true, this.action);
+      // delete following comment
       // TODO: this is important to get the array's positions where failed
       // isArray && this.validator.add(null, propName, isArray);
     } catch (error) {
