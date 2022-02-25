@@ -8,6 +8,6 @@ type Validations = {[key: string]: ValidationResult[]} | null;
 export const throwValueObjectException = curry(
   (message: string, validations: Validations): void => {
     if(isEmptyOrNil(validations)) return;
-    throw new DomainValueObjectValidationException('', validations);
+    throw new DomainValueObjectValidationException(message, validations);
   }
 );
