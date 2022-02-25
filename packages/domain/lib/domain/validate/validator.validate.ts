@@ -1,10 +1,13 @@
+import { ValidationResult } from '../../validators';
 import { ValidatorException } from './validator-exception.validate';
 
-/**
- * trigger exceptions
- */
+export type ValidatorResult =
+  ValidationResult[]
+  | {[key: string]: ValidationResult[]}
+  | null;
+
 export abstract class Validator {
 
-  abstract execute(validatorException: ValidatorException): void;
+  abstract execute(validatorException: ValidatorException): ValidatorResult;
 
 }

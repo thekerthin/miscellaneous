@@ -1,7 +1,8 @@
-import { isEmptyOrNil } from '@kerthin/utils';
+import { isEmptyOrNil, isNotEmptyOrNil } from '@kerthin/utils';
 import { UniqueEntityID } from './unique-entity-id';
 import { Actions, isValueObject, isValueObjectDefinedInTarget, Metadata, TargetMetadata, TargetPropertyMeta } from '../utils';
 import { EntityValidator, ValidatorExecutor } from './validate';
+import { ValidationResult } from '../validators';
 
 const isEntity = (v: any): v is DomainEntity => {
   return v instanceof DomainEntity;
@@ -67,7 +68,7 @@ export abstract class DomainEntity {
     return this.serialize(properties, this, defaults);
   }
 
-  public validate(): void {
+  public validate(): {[key: string]: ValidationResult[]} | null {
     const target = this.constructor;
 
     const filterTargets = ([propName]: [string, any]) =>
@@ -75,8 +76,8 @@ export abstract class DomainEntity {
 
     const validate = ([propName, target]) => {
       Array.isArray(target)
-        ? target.forEach((target) => this.runValidation({
-          propName, target, isArray: true
+        ? target.forEach((target, index) => this.runValidation({
+          propName, target, isArray: true, index
         }))
         : this.runValidation({ propName, target });
     };
@@ -85,17 +86,13 @@ export abstract class DomainEntity {
       .filter(filterTargets)
       .forEach(validate);
 
-    this.validator.throwException();
+    return this.validator.throwException() as {[key: string]: ValidationResult[]} | null;
   }
 
-  private runValidation({ propName, target, isArray = false }) {
-    try {
-      target.validate(true, this.action);
-      // delete following comment
-      // TODO: this is important to get the array's positions where failed
-      // isArray && this.validator.add(null, propName, isArray);
-    } catch (error) {
-      this.validator.add(error, propName, isArray);
+  private runValidation({ propName, target, isArray = false, index = null }) {
+    const validationResult = target.validate(this.action);
+    if (isNotEmptyOrNil(validationResult)) {
+      this.validator.add(validationResult, propName, isArray, index);
     }
   }
 

@@ -1,19 +1,17 @@
-import { Exception, ValidationArrayException } from '../../exceptions';
+import { ValidationResult } from '../../validators';
 import { ValidatorException } from './validator-exception.validate';
 import { Validator } from './validator.validate';
 
 export class ValueObjectValidator extends Validator {
 
-  execute(validatorException: ValidatorException): void {
-    const exceptions: Array<Exception> = [];
+  execute(validatorException: ValidatorException): ValidationResult[] {
+    const exceptions: ValidationResult[] = [];
 
-    validatorException.forEach((exception: Exception) => {
+    validatorException.forEach((exception: ValidationResult) => {
       exceptions.push(exception);
     });
 
-    if (exceptions.length > 0) {
-      throw new ValidationArrayException('Value Object Validation', exceptions);
-    }
+    return exceptions;
   }
 
 }

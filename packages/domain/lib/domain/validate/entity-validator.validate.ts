@@ -1,19 +1,19 @@
-import { Exception, ExceptionType, ValidationDictException } from '../../exceptions';
+import { ValidationResult } from '../../validators';
 import { ValidatorException } from './validator-exception.validate';
 import { Validator } from './validator.validate';
 
+type EntityValidatorResult = {[key: string]: ValidationResult[]} | null;
+
 export class EntityValidator extends Validator {
 
-  execute(validatorException: ValidatorException): void {
-    const exceptions: ExceptionType = {};
+  execute(validatorException: ValidatorException): EntityValidatorResult {
+    const validations: {[key: string]: ValidationResult[]} = {};
 
-    validatorException.forEach((exception: Array<Exception>, key: string) => {
-      exceptions[key] = exception;
+    validatorException.forEach((validation: Array<ValidationResult>, key: string) => {
+      validations[key] = validation;
     });
 
-    if (Object.keys(exceptions).length > 0) {
-      throw new ValidationDictException('Entity Validation', exceptions);
-    }
+    return Object.keys(validations).length > 0 ? validations : null;
   }
 
 }

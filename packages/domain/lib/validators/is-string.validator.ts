@@ -1,12 +1,13 @@
 import { is } from 'ramda';
-import { Exception } from '../exceptions';
-import { Validator } from './validator';
+import { applyValidation, ValidationOptions } from './apply-validation';
 
-const isString = is(String);
-
-export class IsString extends Validator {
-  validate(value: any): Exception | null {
-    const isNotString = !isString(value);
-    return isNotString ? new Exception('The value must be a string.') : null;
-  }
-}
+export const IsString = (validationOptions?: ValidationOptions) => applyValidation(
+  {
+    code: 'IS_STRING',
+    defaultMessage: 'The value must be a string.',
+    validate: (value: any): boolean => {
+      return is(String)(value);
+    }
+  },
+  validationOptions
+);

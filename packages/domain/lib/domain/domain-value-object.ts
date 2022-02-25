@@ -1,8 +1,9 @@
-import { compose, is, map, filter, forEach } from 'ramda';
+import { compose, map, filter, forEach } from 'ramda';
 import { Actions, Metadata } from '../utils';
-import { Exception } from '../exceptions';
 import { ValueObjectOptions } from '../decorators';
 import { ValidatorExecutor, ValueObjectValidator } from './validate';
+import { isNotEmptyOrNil } from '@kerthin/utils';
+import { ValidationResult } from '../validators';
 
 export abstract class DomainValueObject {
   protected validator = new ValidatorExecutor(new ValueObjectValidator());
@@ -17,33 +18,34 @@ export abstract class DomainValueObject {
     return this.value;
   }
 
-  validate(throwException = true, action: Actions = Actions.DEFAULT_TO): void {
+  validate(action?: Actions): ValidationResult[] {
     const target = this['constructor'];
     const meta = Metadata.getTargetMetadata(target);
     const validators = meta.validators as ValueObjectOptions;
 
-    const getExceptions = compose(
-      filter(is(Exception)),
-      map((validatorTarget) => new validatorTarget()
-        .validate(this.toValue()))
-    );
-    const addExceptions = forEach(
-      (exception) => this.validator.add(exception)
+    const getValidations = compose(
+      filter(isNotEmptyOrNil),
+      map((validator) => validator(this.toValue()))
     );
 
+    const addValidations = forEach(
+      (validation) => this.validator.add(validation)
+    );
+
+    addValidations(getValidations(validators?.[Actions.DEFAULT_TO] || []));
+
     switch (action) {
-      case 'OnCreate':
-        addExceptions(getExceptions(validators?.[Actions.ON_CREATE] || []));
+      case Actions.ON_CREATE:
+        addValidations(getValidations(validators?.[Actions.ON_CREATE] || []));
         break;
-      case 'OnUpdate':
-        addExceptions(getExceptions(validators?.[Actions.ON_UPDATE] || []));
+      case Actions.ON_UPDATE:
+        addValidations(getValidations(validators?.[Actions.ON_UPDATE] || []));
         break;
       default:
-        addExceptions(getExceptions(validators?.[Actions.DEFAULT_TO] || []));
         break;
     }
 
-    throwException && this.validator.throwException();
+    return this.validator.throwException() as ValidationResult[];
   }
 
   equals(vo?: this): boolean {

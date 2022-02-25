@@ -81,22 +81,28 @@ describe('AggregateRoot', () => {
 
   it.only('should fail creating an aggregate-root by entity validation', () => {
     const data = {
-      name: 'sdsd',
+      name: '',
       info: [],
       example: {
-        name: 'sd',
+        name: '',
         email: 'email@email.com'
       },
       example2: [
         {
-          name: 'sd',
+          name: '',
           email: 'email@email.com'
+        },
+        {
+          name: '',
+          email: ''
         }
       ]
     };
 
     try {
-      ExampleAggregate2.create(data).validate();
+      const result = ExampleAggregate2.create(data).validate();
+      console.log('result', JSON.stringify(result));
+
     } catch (error) {
       console.log('error', error);
       // expect(error).to.be.instanceOf(ValidationDictException);

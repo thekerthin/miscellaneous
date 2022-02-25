@@ -1,3 +1,3 @@
-import { Exception } from '../../exceptions';
+import { ValidationResult } from '../../validators';
 
-export class ValidatorException extends Map<string, Exception | Array<Exception>> { }
+export class ValidatorException extends Map<string, ValidationResult | Array<ValidationResult>> { }

@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
-import { Validator } from './validator.validate';
-import { Exception } from '../../exceptions';
+import { Validator, ValidatorResult } from './validator.validate';
 import { ValidatorException } from './validator-exception.validate';
+import { ValidationResult } from '../../validators';
 
 export class ValidatorExecutor {
 
@@ -9,25 +9,25 @@ export class ValidatorExecutor {
 
   constructor(private readonly validator: Validator) { }
 
-  add(exception: Exception, key?: string, isValueArray?: boolean): this {
-    let exceptionValue: Exception | Array<Exception> = exception;
+  add(validation: ValidationResult, key?: string, isValueArray?: boolean, index?: number): this {
+    let validationValue: ValidationResult | Array<ValidationResult> = validation;
 
     if (isValueArray) {
-      const keyExceptions = (this.exception.get(key) || []) as Array<Exception>;
-      exceptionValue = [...keyExceptions, exceptionValue];
+      const keyExceptions = (this.exception.get(key) || {}) as Array<ValidationResult>;
+      validationValue = {...keyExceptions, [index]: validationValue};
     }
 
-    this.exception.set(key || `random_${v4()}`, exceptionValue);
+    this.exception.set(key || `random_${v4()}`, validationValue);
 
     return this;
   }
 
-  get(key: string): Exception | Array<Exception> {
+  get(key: string): ValidationResult | Array<ValidationResult> {
     return this.exception.get(key);
   }
 
-  throwException(): void {
-    this.validator.execute(this.exception);
+  throwException(): ValidatorResult {
+    return this.validator.execute(this.exception);
   }
 
 }

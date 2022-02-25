@@ -1,9 +1,8 @@
-import { Class } from '@kerthin/utils';
 import { Actions, Metadata } from '../utils';
-import { Validator } from '../validators';
+import { ValidationResult } from '../validators';
 
 export type ValueObjectOptions = {
-  [key in Actions]?: Array<Class<Validator>>
+  [key in Actions]?: Array<(value: any) => ValidationResult>
 }
 
 export function ValueObject(options?: ValueObjectOptions) {
