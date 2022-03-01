@@ -1,3 +1,5 @@
+import { isUndefined } from '../utils';
+
 export type ValidationOptions = {
   message?: string;
 };
@@ -5,6 +7,7 @@ export type ValidationOptions = {
 export type ApplyValidationOptions = {
   code: string;
   defaultMessage: string;
+  forceValidation?: boolean;
   validate: (value: any) => boolean;
 };
 
@@ -17,6 +20,7 @@ export const applyValidation = (
   options: ApplyValidationOptions,
   validationOptions?: ValidationOptions
 ) => (value: any): ValidationResult => {
+  if (options.forceValidation !== true && isUndefined(value)) return null;
   if (options.validate(value)) return null;
 
   return {

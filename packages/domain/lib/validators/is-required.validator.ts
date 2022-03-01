@@ -5,6 +5,7 @@ export const IsRequired = (validationOptions?: ValidationOptions) => applyValida
   {
     code: 'IS_REQUIRED',
     defaultMessage: 'The value is required.',
+    forceValidation: true,
     validate: (value: any): boolean => {
       return isNotEmptyOrNil(value);
     }

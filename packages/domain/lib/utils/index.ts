@@ -4,3 +4,4 @@ export * from './aggregate';
 export * from './metadata';
 export * from './types';
 export * from './enums';
+export * from './validations';
