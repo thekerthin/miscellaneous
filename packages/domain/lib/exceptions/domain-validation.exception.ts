@@ -1,12 +1,7 @@
 import { Exception } from './exception';
 
-type Detail = {
-  code: string;
-  message: string;
-};
-
 export class DomainValidationException extends Exception {
-  constructor(message: string, private readonly detail?: Detail)  {
+  constructor(message: string, public readonly code?: string)  {
     super(message);
   }
 }
