@@ -8,7 +8,7 @@ type Detail = {
 type ExceptionType = { [name: string]: Array<Detail> };
 
 export class DomainValueObjectValidationException extends Exception {
-  constructor(message: string, private readonly properties?: ExceptionType)  {
+  constructor(message: string, public readonly properties?: ExceptionType)  {
     super(message);
   }
 }

@@ -2,7 +2,7 @@ import { isEmptyOrNil, isNotEmptyOrNil } from '@kerthin/utils';
 import { UniqueEntityID } from './unique-entity-id';
 import { Actions, isValueObject, isValueObjectDefinedInTarget, Metadata, TargetMetadata, TargetPropertyMeta } from '../utils';
 import { EntityValidator, ValidatorExecutor } from './validate';
-import { ValidationResult } from '../validators';
+import { throwValueObjectException, ValidationResult } from '../validators';
 
 const isEntity = (v: any): v is DomainEntity => {
   return v instanceof DomainEntity;
@@ -87,6 +87,13 @@ export abstract class DomainEntity {
       .forEach(validate);
 
     return this.validator.throwException() as {[key: string]: ValidationResult[]} | null;
+  }
+
+  public validateAndThrowException(message?: string): void {
+    throwValueObjectException(
+      message,
+      this.validate()
+    );
   }
 
   private runValidation({ propName, target, isArray = false, index = null }) {
