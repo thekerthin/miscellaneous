@@ -1,4 +1,5 @@
 import { AggregateRoot, Aggregate, ValueObjectProp, OnAction } from '../../lib';
+import { Actions } from '../../lib/utils';
 import { Name } from './name.value-object';
 
 @Aggregate('definitive')
@@ -11,7 +12,7 @@ export class DefinitiveAggregate extends AggregateRoot {
     return new DefinitiveAggregate(data);
   }
 
-  @OnAction('OnCreate')
+  @OnAction(Actions.ON_CREATE)
   create() {
     const value = this.name.toValue();
     console.log('value', value);
