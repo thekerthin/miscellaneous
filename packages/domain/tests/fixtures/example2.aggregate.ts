@@ -21,4 +21,8 @@ export class ExampleAggregate2 extends AggregateRoot {
     return new ExampleAggregate2(data);
   }
 
+  update<T>(data: T) {
+    this.setValueObjects(data);
+  }
+
 }

@@ -8,7 +8,7 @@ import { ValidationResult } from '../validators';
 export abstract class DomainValueObject {
   protected validator = new ValidatorExecutor(new ValueObjectValidator());
 
-  constructor(protected readonly value: any) {}
+  constructor(protected value: any) {}
 
   toValue():
     | string

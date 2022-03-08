@@ -1,8 +1,10 @@
 import { isEmptyOrNil, isNotEmptyOrNil } from '@kerthin/utils';
+import { curry, mergeDeepRight } from 'ramda';
 import { UniqueEntityID } from './unique-entity-id';
-import { Actions, isValueObject, isValueObjectDefinedInTarget, Metadata, TargetMetadata, TargetPropertyMeta } from '../utils';
+import { Actions, isValueObject, isValueObjectDefinedInTarget, Metadata, TargetMetadata, TargetPropertyMeta, isEntity as isEntityV } from '../utils';
 import { EntityValidator, ValidatorExecutor } from './validate';
 import { throwValueObjectException, ValidationResult } from '../validators';
+import { createUniqueID } from '../utils/unique-entity-id';
 
 const isEntity = (v: any): v is DomainEntity => {
   return v instanceof DomainEntity;
@@ -18,8 +20,12 @@ export abstract class DomainEntity {
   private static initialize(instance: any, data: any = {}): void {
     const target = instance.constructor;
     const { properties } = Metadata.getTargetMetadata(target) as TargetMetadata;
-    const getTargetInstance = ({ target }: any) => (value: any) =>
-      new target(value);
+    const getTargetInstance = curry(
+      ({ target }: any, value: any) => {
+        const ownId = value?.ownId ? new UniqueEntityID(value.ownId) : new UniqueEntityID();
+        return new target(value, ownId);
+      }
+    );
 
     Object.entries(properties).forEach(([propName, { valueObject }]: [string, TargetPropertyMeta]) => {
       const { options } = valueObject.meta;
@@ -96,6 +102,30 @@ export abstract class DomainEntity {
     );
   }
 
+  protected setValueObjects<T>(data: T): void {
+    const target = this.constructor;
+    const { properties } = Metadata.getTargetMetadata(target) as TargetMetadata;
+
+    Object
+      .entries(data)
+      .forEach(([propName, value]) => {
+        const valueObject = properties[propName]['valueObject'];
+        const { options, target } = valueObject.meta;
+
+        if (isEmptyOrNil(value) && options.isArray) value = [];
+
+        if (options.isArray) {
+          this[propName] = value.map((v: any) => new target(v));
+        }
+        if (options.isEntity) {
+          this[propName]?.setValueObjects(value);
+        }
+        if (options.isValueObject) {
+          this[propName] = new target(value);
+        }
+      });
+  }
+
   private runValidation({ propName, target, isArray = false, index = null }) {
     const validationResult = target.validate(this.action);
     if (isNotEmptyOrNil(validationResult)) {
@@ -123,7 +153,7 @@ export abstract class DomainEntity {
       }
 
       if (options.isEntity) {
-        const _defaults = { ownId: context.ownId.toValue() };
+        const _defaults = { ownId: context[propName].ownId.toValue() };
         const { properties } = Metadata.getTargetMetadata(target) as TargetMetadata;
         raw[propName] = this.serialize(properties, context[propName], _defaults);
       }

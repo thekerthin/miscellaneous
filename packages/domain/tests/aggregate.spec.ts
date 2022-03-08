@@ -81,27 +81,46 @@ describe('AggregateRoot', () => {
 
   it.only('should fail creating an aggregate-root by entity validation', () => {
     const data = {
-      name: '',
+      name: 'Name',
       info: [],
       example: {
-        name: '',
+        name: 'Name',
         email: 'email@email.com'
       },
       example2: [
         {
-          name: '',
+          name: 'Name',
           email: 'email@email.com'
         },
         {
-          name: '',
-          email: ''
+          name: 'Name',
+          email: 'name@email.com'
         }
       ]
     };
 
     try {
-      const result = ExampleAggregate2.create(data).validate();
-      console.log('result', JSON.stringify(result));
+      // const result = ExampleAggregate2.create(data).validate();
+      // console.log('result', JSON.stringify(result));
+      const result = ExampleAggregate2.create(data);
+
+      // console.log('raw created', result);
+      console.log('raw created - raw', result.toRaw());
+
+      result.update({
+        name: 'Name updated',
+        example: {
+          name: 'Name updated'
+        },
+        example2: [
+          {
+            name: 'Name',
+            email: 'email@email.com'
+          }
+        ]
+      });
+
+      console.log('raw updated', result.toRaw());
 
     } catch (error) {
       console.log('error', error);
