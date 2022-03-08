@@ -110,15 +110,15 @@ describe('AggregateRoot', () => {
       result.update({
         ownId: '6226ce696b416335d0ebcebb',
         name: 'Name updated',
-        example: {
-          name: 'Name updated'
-        },
-        example2: [
-          {
-            name: 'Name',
-            email: 'email@email.com'
-          }
-        ]
+        // example: {
+        //   name: 'Name updated'
+        // },
+        // example2: [
+        //   {
+        //     name: 'Name',
+        //     email: 'email@email.com'
+        //   }
+        // ]
       });
 
       console.log('raw updated', result.toRaw());

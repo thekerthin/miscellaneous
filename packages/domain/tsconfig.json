@@ -4,5 +4,7 @@
     "outDir": "./dist",
     "rootDir": "./lib"
   },
-  "include": ["lib/**/*.ts"]
+  "include": [
+    "lib/**/*.ts"
+  ]
 }

@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@kerthin/utils": "^0.0.1-alpha.7",
-    "bson-objectid": "^2.0.2",
+    "mongodb": "^4.4.1",
     "ramda": "^0.27.1",
     "reflect-metadata": "^0.1.13",
     "uuid": "^8.3.2",
