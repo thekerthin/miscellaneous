@@ -109,7 +109,10 @@ export abstract class DomainEntity {
     Object
       .entries(data)
       .forEach(([propName, value]) => {
-        const valueObject = properties[propName]['valueObject'];
+        const valueObject = properties?.[propName]?.['valueObject'];
+
+        if (isEmptyOrNil(valueObject)) return;
+
         const { options, target } = valueObject.meta;
 
         if (isEmptyOrNil(value) && options.isArray) value = [];

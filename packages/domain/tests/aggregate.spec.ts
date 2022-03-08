@@ -102,12 +102,13 @@ describe('AggregateRoot', () => {
     try {
       // const result = ExampleAggregate2.create(data).validate();
       // console.log('result', JSON.stringify(result));
-      const result = ExampleAggregate2.create(data);
+      const result = ExampleAggregate2.create(data, '6226ce696b416335d0ebcebb');
 
       // console.log('raw created', result);
       console.log('raw created - raw', result.toRaw());
 
       result.update({
+        ownId: '6226ce696b416335d0ebcebb',
         name: 'Name updated',
         example: {
           name: 'Name updated'
