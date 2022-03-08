@@ -2,13 +2,13 @@
 # yarn lockfile v1
 
 
-"@kerthin/utils@^0.0.1-0":
-  version "0.0.1-0"
-  resolved "https://registry.yarnpkg.com/@kerthin/utils/-/utils-0.0.1-0.tgz#bf1d14f7e416e32f7b59b7120ede3b156696c9c1"
-  integrity sha512-vKY5SBng7M69QI29TdVO0nnTJmnCZWy+uetixqjxa3SR5upHlqT9TPLHhLcSXU2m+mKTHWWcGE6cqNh5Cv8v7w==
+"@kerthin/utils@^0.0.1-alpha.7":
+  version "0.0.1-alpha.7"
+  resolved "https://registry.yarnpkg.com/@kerthin/utils/-/utils-0.0.1-alpha.7.tgz#42780bbd75743ef150a7a7c85d06d7768f2445d3"
+  integrity sha512-felfWZ1BaODAABq2wfzhfFTpJCaSTzuDjD/LlrC6/qYPlvHvk6I4+0mphxBTYAjn0ZoKeKrwxubefNHMJZVBLg==
   dependencies:
-    axios "^0.19.2"
-    class-transformer "^0.2.3"
+    axios "^0.21.1"
+    class-transformer "^0.3.1"
     glob "^7.1.6"
     ramda "^0.27.0"
 
@@ -28,12 +28,19 @@ ansi-regex@^2.1.1:
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-2.1.1.tgz#c3b33ab5ee360d86e0e628f0468ae7ef27d654df"
   integrity sha1-w7M6te42DYbg5ijwRorn7yfWVN8=
 
-axios@0.19.2, axios@^0.19.2:
+axios@0.19.2:
   version "0.19.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
   integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
   dependencies:
     follow-redirects "1.5.10"
+
+axios@^0.21.1:
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
+  integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
+  dependencies:
+    follow-redirects "^1.14.0"
 
 balanced-match@^1.0.0:
   version "1.0.2"
@@ -48,10 +55,10 @@ brace-expansion@^1.1.7:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
 
-class-transformer@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/class-transformer/-/class-transformer-0.2.3.tgz#598c92ca71dcca73f91ccb875d74a3847ccfa32d"
-  integrity sha512-qsP+0xoavpOlJHuYsQJsN58HXSl8Jvveo+T37rEvCEeRfMWoytAyR0Ua/YsFgpM6AZYZ/og2PJwArwzJl1aXtQ==
+class-transformer@^0.3.1:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/class-transformer/-/class-transformer-0.3.2.tgz#779ef5f124784324b40f8e927c774bd96cdecd4b"
+  integrity sha512-9QY6QXBH/+Gt1C3HBmJCrgY6+EFpIa6aLjfDnlXFx0zQl/HjrCE7qoaI0srNrxpMIfsobCpgUdDG5JYtJOpVsw==
 
 cli-color@2.0.0:
   version "2.0.0"
@@ -142,6 +149,11 @@ follow-redirects@1.5.10:
   integrity sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==
   dependencies:
     debug "=3.1.0"
+
+follow-redirects@^1.14.0:
+  version "1.14.9"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.9.tgz#dd4ea157de7bfaf9ea9b3fbd85aa16951f78d8d7"
+  integrity sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==
 
 fs.realpath@^1.0.0:
   version "1.0.0"
